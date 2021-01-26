@@ -242,12 +242,20 @@ ${inject.body || ""}
 
     var div = document.createElement('div')
     div.className = 'ready'
-    setTimeout(function(){
     document.body.appendChild(div)
-    }, 3000)
   }
-
-  document.addEventListener('load', function(){setTimeout(onReady, 5000)})
+  HTMLDocument.prototype.ready = new Promise(function (resolve) {
+  if (document.readyState != "loading")
+      return resolve();
+  else
+      document.addEventListener("DOMContentLoaded", function () {
+          return resolve();
+      });
+  });
+  
+  document.ready.then(function () {
+      onReady()
+  });
 </script>
 
 </body>
