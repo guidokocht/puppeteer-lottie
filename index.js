@@ -233,10 +233,7 @@ ${inject.body || ""}
       loop: false,
       autoplay: false,
       rendererSettings: ${JSON.stringify(rendererSettings)},
-      assetsPath: ${animationPath.substring(
-        0,
-        animationPath.lastIndexOf("/")
-      )}/images/,
+      assetsPath: ${assPath},
       path: ${animationPath}
     })
 
