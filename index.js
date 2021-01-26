@@ -242,7 +242,9 @@ ${inject.body || ""}
 
     var div = document.createElement('div')
     div.className = 'ready'
+    setTimeout(function(){
     document.body.appendChild(div)
+    }, 3000)
   }
 
   document.addEventListener('load', function(){setTimeout(onReady, 5000)})
