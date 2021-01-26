@@ -177,12 +177,12 @@ module.exports = async(opts) => {
     width = width | 0;
     height = height | 0;
     /*     const aniDat = `${JSON.stringify(lottieData)}`;
-      const assPath = `${animationData.substring(
-      0,
-      animationData.lastIndexOf("/")
-    )}/images/`;
-      console.log("aniDat", aniDat);
-      console.log("assPath", assPath); */
+        const assPath = `${animationData.substring(
+        0,
+        animationData.lastIndexOf("/")
+      )}/images/`;
+        console.log("aniDat", aniDat);
+        console.log("assPath", assPath); */
     const html = `
 <html>
 <head>
@@ -286,7 +286,7 @@ ${inject.body || ""}
     const rootHandle = await pageFrame.$("#root");
 
     const screenshotOpts = {
-        omitBackground: false,
+        omitBackground: true,
         type: frameType,
         quality: frameType === "jpeg" ? jpegQuality : undefined,
     };
