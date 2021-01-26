@@ -286,7 +286,7 @@ ${inject.body || ""}
     const rootHandle = await pageFrame.$("#root");
 
     const screenshotOpts = {
-        omitBackground: true,
+        omitBackground: false,
         type: frameType,
         quality: frameType === "jpeg" ? jpegQuality : undefined,
     };
