@@ -245,7 +245,7 @@ ${inject.body || ""}
     document.body.appendChild(div)
   }
 
-  document.addEventListener('load', onReady)
+  document.addEventListener('load', function(){setTimeout(onReady, 5000)})
 </script>
 
 </body>
