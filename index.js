@@ -139,7 +139,8 @@ module.exports = async(opts) => {
     const isMultiFrame = isApng || isMp4 || /%d|%\d{2,3}d/.test(tempOutput);
 
     let lottieData = animationData;
-
+    console.log("animationPath", animationPath);
+    console.log("animationData", animationData);
     if (animationPath) {
         if (animationData) {
             throw new Error('"animationData" and "path" are mutually exclusive');
@@ -226,9 +227,9 @@ ${inject.body || ""}
       loop: false,
       autoplay: false,
       rendererSettings: ${JSON.stringify(rendererSettings)},
-      assetsPath: ${animationPath.substring(
+      assetsPath: ${animationData.substring(
         0,
-        animationPath.lastIndexOf("/")
+        animationData.lastIndexOf("/")
       )}/images/,
       animationData
     })
