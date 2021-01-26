@@ -256,7 +256,7 @@ ${inject.body || ""}
 `;
 
     // useful for testing purposes
-    // fs.writeFileSync('test.html', html)
+    fs.writeFileSync("test.html", html);
 
     const spinnerB = !quiet && ora("Loading browser").start();
 
