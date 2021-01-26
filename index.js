@@ -226,8 +226,8 @@ ${inject.body || ""}
   let duration
   let numFrames
 
-  function onReady () {
-    animation = lottie.loadAnimation({
+  function onReady async() {
+    animation = (await lottie.loadAnimation({
       container: document.getElementById('root'),
       renderer: '${renderer}',
       loop: false,
@@ -235,10 +235,10 @@ ${inject.body || ""}
       rendererSettings: ${JSON.stringify(rendererSettings)},
       assetsPath: ${assPath},
       path: ${animationPath}
-    })
+    }))
 
-    duration = animation.getDuration()
-    numFrames = animation.getDuration(true)
+    duration = (await animation.getDuration())
+    numFrames = (await animation.getDuration(true))
 
     var div = document.createElement('div')
     div.className = 'ready'
