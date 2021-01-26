@@ -244,18 +244,8 @@ ${inject.body || ""}
     div.className = 'ready'
     document.body.appendChild(div)
   }
-  HTMLDocument.prototype.ready = new Promise(function (resolve) {
-  if (document.readyState != "loading")
-      return resolve();
-  else
-      document.addEventListener("DOMContentLoaded", function () {
-          return resolve();
-      });
-  });
-  
-  document.ready.then(function () {
-      onReady()
-  });
+
+  (await document.addEventListener('load', onReady))
 </script>
 
 </body>
