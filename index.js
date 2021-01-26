@@ -237,7 +237,7 @@ ${inject.body || ""}
         0,
         animationPath.lastIndexOf("/")
       )}/images/,
-      animationData
+      path: ${animationPath}
     })
 
     duration = animation.getDuration()
