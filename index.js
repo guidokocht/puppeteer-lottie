@@ -236,13 +236,16 @@ ${inject.body || ""}
       assetsPath: ${assPath},
       path: ${animationPath}
     })
+    animation.addEventListener('data_ready', () => {
+        var div = document.createElement('div')
+        div.className = 'ready'
+        document.body.appendChild(div)
+    })
 
     duration = animation.getDuration()
     numFrames = animation.getDuration(true)
 
-    var div = document.createElement('div')
-    div.className = 'ready'
-    document.body.appendChild(div)
+
   }
 
   document.addEventListener('load', onReady)
