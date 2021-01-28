@@ -1,5 +1,5 @@
 "use strict";
-
+var StaticServer = require("static-server");
 const fs = require("fs-extra");
 const execa = require("execa");
 const ora = require("ora");
@@ -139,8 +139,7 @@ module.exports = async(opts) => {
     const isMultiFrame = isApng || isMp4 || /%d|%\d{2,3}d/.test(tempOutput);
 
     let lottieData = animationData;
-    console.log("animationPath", animationPath);
-    console.log("animationData", animationData);
+
     if (animationPath) {
         if (animationData) {
             throw new Error('"animationData" and "path" are mutually exclusive');
@@ -177,12 +176,17 @@ module.exports = async(opts) => {
     width = width | 0;
     height = height | 0;
     const aniDat = `${JSON.stringify(lottieData)}`;
-    const assPath = `${animationPath.substring(
-    0,
-    animationPath.lastIndexOf("/")
-  )}/images/`;
-    console.log("aniDat", aniDat);
-    console.log("assPath", assPath);
+    const staticPath = path.dirname(path.resolve(animationPath));
+    var server = new StaticServer({
+        rootPath: staticPath, // required, the root of the server file tree
+        port: 1337, // required, the port to listen
+        name: "my-http-server", // optional, will set "X-Powered-by" HTTP header
+        cors: "*", // optional, defaults to undefined
+        followSymlink: true, // optional, defaults to a 404 error
+    });
+    server.start();
+
+    const assPath = "http://localhost:1337/images/";
     const html = `
 <html>
 <head>
@@ -233,22 +237,20 @@ ${inject.body || ""}
       loop: false,
       autoplay: false,
       rendererSettings: ${JSON.stringify(rendererSettings)},
-      assetsPath: ${assPath},
-      path: ${animationPath}
+      assetsPath: "${assPath}",
+      animationData
     })
-    animation.addEventListener('data_ready', () => {
+    
+    duration = animation.getDuration()
+    animation.goToAndStop(duration / 2, true)
+    numFrames = animation.getDuration(true)
         var div = document.createElement('div')
         div.className = 'ready'
         document.body.appendChild(div)
-    })
-
-    duration = animation.getDuration()
-    numFrames = animation.getDuration(true)
-
 
   }
 
-  document.addEventListener('load', onReady)
+  document.addEventListener('DOMContentLoaded', onReady)
 </script>
 
 </body>
@@ -256,7 +258,7 @@ ${inject.body || ""}
 `;
 
     // useful for testing purposes
-    fs.writeFileSync("test.html", html);
+    //fs.writeFileSync("test.html", html);
 
     const spinnerB = !quiet && ora("Loading browser").start();
 
@@ -473,7 +475,7 @@ ${inject.body || ""}
     if (tempDir) {
         await fs.remove(tempDir);
     }
-
+    server.stop();
     return {
         numFrames,
         duration,
